@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'RedRocksSocial' target in the 'RedRocksSocial' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
