@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <!-- Sencha Touch Library --------------------------------------------------------------------------------
+     -->
+     
+    <!-- Use this for deployment -- >
+    <script type="text/javascript" src="lib/touch/sencha-touch.js"></script>
+    <!-- -->
+    <!-- Use this for testing -->
+    <script type="text/javascript" src="lib/touch/sencha-touch-debug.js"></script>
+    <!-- -->
+    <link rel="stylesheet" href="lib/touch/resources/css/sencha-touch.css" type="text/css" />
+
+    <!-- PhoneGap Library ------------------------------------------------------------------------------------
+     -->
+    <!-- iPad/iPhone specific css below, add after your main css >
+     <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+     <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+     -->
+    <!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+    <script type="text/javascript" charset="utf-8" src="lib/phonegap/phonegap-1.3.0.js"></script>
+    
+    <!-- PhoneGap Plugins -->
+    <script src="lib/thewall/pg-plugin-fb-connect.js"></script>
+
+    <!-- Facebook js SDK -------------------------------------------------------------------------------------
+     -->
+    <script src="lib/thewall/facebook_js_sdk.js"></script>
+    
+    <!-- Start Mixpanel -->
+    <script type="text/javascript">var mpq=[];mpq.push(["init","1a9242a84876a86c7adf76b3b69dbd1d"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
+    </script>
+    <!-- End Mixpanel -->
+    
+    <!-- Arbitrage Mobile Libraries --------------------------------------------------------------------------
+     -->
+    <script type="text/javascript" src="lib/thewall/app_uniques.js"></script>
+    <script type="text/javascript" src="lib/thewall/camera.js"></script>
+    <script type="text/javascript" src="lib/thewall/dtConverter_v2.js"></script>
+    <script type="text/javascript" src="lib/thewall/fbUtils.js"></script>
+    <script type="text/javascript" src="lib/thewall/geoFence.js"></script>
+    <script type="text/javascript" src="lib/thewall/globals.js"></script>
+    <script type="text/javascript" src="lib/thewall/gps.js"></script>
+    <script type="text/javascript" src="lib/thewall/nopic.js"></script> 
+
+    <!-- Weinre remote debugger ------------------------------------------------------------------------------
+     -- >
+    <script type="text/javascript" src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
+        -->
+    <!-- Arbitrage Mobile application ------------------------------------------------------------------------
+     -->
+    <script type="text/javascript" src="wall/wall-debug.js"></script>
+    <link rel="stylesheet" href="lib/thewall/arbitrage.css" type="text/css" />
+    <link rel="stylesheet" href="lib/thewall/wallPost.css" type="text/css" />
+    <link rel="stylesheet" href="lib/thewall/wallDetail.css" type="text/css" />
+    <script type="text/javascript" src="wall/models/Application.js"></script>
+    <script type="text/javascript" src="wall/models/ListMenu.js"></script>
+    <script type="text/javascript" src="wall/models/LocalStorage.js"></script>
+    <script type="text/javascript" src="wall/models/User.js"></script>
+        <script type="text/javascript" src="wall/models/TestUser.js"></script>
+    <script type="text/javascript" src="wall/models/Photo.js"></script>
+    <script type="text/javascript" src="wall/models/RSS.js"></script>
+    <script type="text/javascript" src="wall/models/WallPosts.js"></script>
+    <script type="text/javascript" src="wall/views/WallPanel.js"></script>
+    <script type="text/javascript" src="wall/views/DetailPanel.js"></script>
+    <script type="text/javascript" src="wall/views/PictureActionSheet.js"></script>
+    <script type="text/javascript" src="wall/views/ErrorField.js"></script>
+    <script type="text/javascript" src="wall/views/Viewport.js"></script>
+    <script type="text/javascript" src="wall/views/SignInPanel.js"></script>
+    <script type="text/javascript" src="wall/views/SignInForm.js"></script>
+    <script type="text/javascript" src="wall/views/HomeMenu.js"></script>
+    <script type="text/javascript" src="wall/views/SettingsMenu.js"></script>
+    <script type="text/javascript" src="wall/views/AccountSettingsMenu.js"></script>
+    <script type="text/javascript" src="wall/views/UserForm.js"></script>
+    <script type="text/javascript" src="wall/views/UserList.js"></script>
+    <script type="text/javascript" src="wall/views/UserDetail.js"></script>
+    <script type="text/javascript" src="wall/views/ChangePasswordForm.js"></script>
+    <script type="text/javascript" src="wall/views/SharingSettingsForm.js"></script>
+    <script type="text/javascript" src="wall/views/AboutPanel.js"></script>
+    <script type="text/javascript" src="wall/views/NotificationOverlay.js"></script>
+    <script type="text/javascript" src="wall/views/RssList.js"></script>
+    <script type="text/javascript" src="wall/views/RssFeed.js"></script>
+    <script type="text/javascript" src="wall/views/RssDetail.js"></script>
+    <script type="text/javascript" src="wall/controllers/main.js"></script>
+    <script type="text/javascript" src="wall/controllers/WallController.js"></script>
+    
+    <div id="facebookData"></div>
+    
+    <script type="text/javascript" charset="utf-8">
+        // Use this statement for use on a mobile device
+        //document.addEventListener("deviceready",wall.mainLaunch,false);
+        
+        // Use this statement for testing in a desktop browser
+        //document.addEventListener("onload",wall.mainLaunch,false);
+        
+    </script>
+    
+        
+    <!-- Embedded Style Sheet from Hector's index.html -----------------------------------------------------
+         Research this and move into a separate CSS file
+     -->
+    <style type="text/css">
+        .x-button.noPic.x-button-normal {
+            background-image: url(<img src="lib/thewall/noPic.png" id="uploadPic"/>) !important;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .recent {
+            color: #333;
+        }
+
+        .message2 {
+            display: block;
+            padding: 10px;
+            background: #003366;
+            font-size: 150%;
+            color: #fff;
+            float: left;
+            width: 210px;
+            border-bottom: 2px solid #f3f3f3;
+        }
+        .noBorder {
+            -webkit-border-radius:0px;
+            border-radius:0px;
+        }
+        .noBorder .x-list-item:first-child {
+            border-top:0;
+        }
+        
+        .noBorder .x-list-item:last-child {
+            border-bottom:0;
+        }
+        .bottomleft {
+            -webkit-border-bottom-left-radius: .5em;
+        }
+        .bottomright {
+            -webkit-border-bottom-right-radius: .5em;
+        }
+        .topright {
+            -webkit-border-top-right-radius: .5em;
+        }
+        .topleft {
+            -webkit-border-top-left-radius: .5em;
+        }
+       
+        
+        .red-button {
+            border-top: 1px solid #f797b7 !important;
+            background: #d66585 !important;
+            background: -webkit-gradient(linear, left top, left bottom, from(#eb0927), to(#d66585)) !important;
+            background: -webkit-linear-gradient(top, #eb0927, #d66585) !important;
+            background: -moz-linear-gradient(top, #eb0927, #d66585) !important;
+            background: -ms-linear-gradient(top, #eb0927, #d66585) !important;
+            background: -o-linear-gradient(top, #eb0927, #d66585) !important;
+            padding: 5px 10px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+            -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+            box-shadow: rgba(0,0,0,1) 0 1px 0;
+            text-shadow: rgba(0,0,0,.4) 0 1px 0;
+            color: #ffffff;
+            text-decoration: none;
+            vertical-align: middle;
+        }
+        .red-button:hover {
+            border-top-color: #78282e;
+            background: #78282e;
+            color: #ccc;
+        }
+        .red-button:active {
+            border-top-color: #ffffff;
+            background: #ed1a1a;
+        }
+        .pic-button
+        {
+            /* border: 1px solid #354f6e;
+             background: #354f6e;
+             background: -webkit-gradient(linear, left top, left bottom, from(#354f6e), to(#354f6e));
+             background: -webkit-linear-gradient(top, #354f6e, #354f6e);
+             background: -moz-linear-gradient(top, #354f6e, #354f6e);
+             background: -ms-linear-gradient(top, #354f6e, #354f6e);
+             background: -o-linear-gradient(top, #354f6e, #354f6e);
+             padding: 2px ;
+             -webkit-border-radius: 0px;
+             -moz-border-radius: 0px;
+             border-radius: 0px;
+             -webkit-box-shadow: #354f6e 0 1px 0;
+             -moz-box-shadow: #354f6e 0 1px 0;
+             box-shadow: #354f6e 0 1px 0;
+             text-shadow: #354f6e 0 1px 0;
+             color: #354f6e;*/
+            font-size: 40px;
+            padding:0;
+            border:0;
+            font-family: Georgia, serif;
+            text-decoration: none;
+            
+        }
+        /* .pic-button:active {
+         border-color: #354f6e;
+         background: #354f6e;
+         }
+         .pic-button:hover {
+         border-color: #354f6e;
+         background: #354f6e;
+         color: #354f6e;
+         }*/
+    </style>   
+    <!-- End Embedded Style Sheet from Hector's index.html -----------------------------------------------------
+     -->
+     
+  </head>
+  <body>
+  <div class="x-button amimagebutton">
+  <img src="http://arbdev.mine.nu/102/webpics/default.jpg" class="x-button amprofilephoto"/>
+  </div>
+  </body>
+</html>

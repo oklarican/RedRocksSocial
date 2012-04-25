@@ -1,0 +1,18 @@
+//All unique variables for the apps are placed here and set globally. This makes it easier to out put a new app, without having to change information within the code.
+
+app_name='The Wall';
+wall_name='thewall';
+app_lat='39.665537';
+app_long='-105.205025';
+app_range='20000';
+
+newsFeedUrl = 'http://news.google.com/news?hl=en&gl=us&q=lockheed+martin&gs_upl=7697l9369l0l9776l15l13l0l9l9l0l189l634l1.3l4l0&um=1&ie=UTF-8&output=rss';
+twitterFeedUrl = 'http://search.twitter.com/search.json?q=from:lockheedmartin';
+photoFeedUrl='http://api.flickr.com/services/feeds/photos_public.gne?id=10062223@N06&lang=en-us&format=rss_200';
+aboutHTML='<div style="margin: 10 10 10 10"><h4>Contact Us</h4><br><h4>Arbitrage Mobile</h4><br>123 Main St.<br>Denver, CO 80221<br><br>Phone: 303-720-5555<br><h4>Our Mission</h4><br>To provide afforable mobile applications to small businesses.</div>';
+
+aboutWebPage='http://arbdev.mine.nu/';
+emailSubject='Message to Abitrage Mobile';
+emailMessage='Sent from The Wall';
+emailAddress='info@arbitragemobile.com';
+

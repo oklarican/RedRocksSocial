@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <!-- Sencha Touch Library --------------------------------------------------------------------------------
+     -->
+     
+    <!-- Use this for deployment -- >
+    <script type="text/javascript" src="lib/touch/sencha-touch.js"></script>
+    <!-- -->
+    <!-- Use this for testing -->
+    <script type="text/javascript" src="lib/touch/sencha-touch-debug.js"></script>
+    <!-- -->
+    <link rel="stylesheet" href="lib/touch/resources/css/sencha-touch.css" type="text/css" />
+
+    <!-- PhoneGap Library ------------------------------------------------------------------------------------
+     -->
+    <!-- iPad/iPhone specific css below, add after your main css >
+     <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+     <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+     -->
+    <!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+    <script type="text/javascript" charset="utf-8" src="lib/phonegap/cordova-1.6.0.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            // Use this statement for use on a mobile device
+            document.addEventListener("deviceready",wall.mainLaunch,false);
+            
+            // Use this statement for testing in a desktop browser
+            //document.addEventListener("onload",wall.mainLaunch,false);
+            
+            </script>
+        <script type="text/javascript" src="wall/wall.js"></script>
+    
+    <!-- PhoneGap Plugins -->
+    <script src="lib/thewall/cdv-plugin-fb-connect.js"></script>
+    <script src="lib/thewall/ChildBrowser.js"></script>
+    <script src="lib/thewall/EmailComposer.js"></script>
+
+    <!-- Facebook js SDK -------------------------------------------------------------------------------------
+     -->
+    <script src="lib/thewall/facebook_js_sdk.js"></script>
+    
+    
+    <!-- Arbitrage Mobile Libraries --------------------------------------------------------------------------
+     -->
+    <script type="text/javascript" src="lib/thewall/app_uniques.js"></script>
+    <script type="text/javascript" src="lib/thewall/camera.js"></script>
+    <script type="text/javascript" src="lib/thewall/dtConverter_v2.js"></script>
+    <script type="text/javascript" src="lib/thewall/fbUtils.js"></script>
+    <script type="text/javascript" src="lib/thewall/geoFence.js"></script>
+    <script type="text/javascript" src="lib/thewall/globals.js"></script>
+    <script type="text/javascript" src="lib/thewall/gps.js"></script>
+    <script type="text/javascript" src="lib/thewall/nopic.js"></script> 
+
+    <!-- Weinre remote debugger ------------------------------------------------------------------------------
+     -- >
+    <script type="text/javascript" src="http://localhost:8089/target/target-script-min.js#anonymous"></script>
+        -->
+    <!-- Arbitrage Mobile application ------------------------------------------------------------------------
+     -->
+    
+    <link rel="stylesheet" href="lib/thewall/arbitrage.css" type="text/css" />
+    <link rel="stylesheet" href="lib/thewall/wallPost.css" type="text/css" />
+    <link rel="stylesheet" href="lib/thewall/wallDetail.css" type="text/css" />
+    <script type="text/javascript" src="wall/models/Application.js"></script>
+    <script type="text/javascript" src="wall/models/ListMenu.js"></script>
+    <script type="text/javascript" src="wall/models/LocalStorage.js"></script>
+    <script type="text/javascript" src="wall/models/User.js"></script>
+    <script type="text/javascript" src="wall/models/Photo.js"></script>
+    <script type="text/javascript" src="wall/models/RSS.js"></script>
+    <script type="text/javascript" src="wall/models/FBrss.js"></script>
+    <script type="text/javascript" src="wall/models/rssTwitter.js"></script>
+    <script type="text/javascript" src="wall/models/WallPosts.js"></script>
+    <script type="text/javascript" src="wall/views/WallPanel.js"></script>
+    <script type="text/javascript" src="wall/views/DetailPanel.js"></script>
+    <script type="text/javascript" src="wall/views/PictureActionSheet.js"></script>
+    <script type="text/javascript" src="wall/views/ErrorField.js"></script>
+    <script type="text/javascript" src="wall/views/Viewport.js"></script>
+    <script type="text/javascript" src="wall/views/SignInPanel.js"></script>
+    <script type="text/javascript" src="wall/views/SignInForm.js"></script>
+    <script type="text/javascript" src="wall/views/HomeMenu.js"></script>
+    <script type="text/javascript" src="wall/views/SettingsMenu.js"></script>
+    <script type="text/javascript" src="wall/views/AccountSettingsMenu.js"></script>
+    <script type="text/javascript" src="wall/views/UserForm.js"></script>
+    <script type="text/javascript" src="wall/views/UserList.js"></script>
+    <script type="text/javascript" src="wall/views/UserDetail.js"></script>
+    <script type="text/javascript" src="wall/views/ChangePasswordForm.js"></script>
+    <script type="text/javascript" src="wall/views/SharingSettingsForm.js"></script>
+    <script type="text/javascript" src="wall/views/AboutPanel.js"></script>
+    <script type="text/javascript" src="wall/views/NotificationOverlay.js"></script>
+    <script type="text/javascript" src="wall/views/RssList.js"></script>
+    <script type="text/javascript" src="wall/views/RssFeed.js"></script>
+    <script type="text/javascript" src="wall/views/FBRssFeed.js"></script>
+    <script type="text/javascript" src="wall/views/RssDetail.js"></script>
+    <script type="text/javascript" src="wall/views/RssTwitterFeed.js"></script>
+    <script type="text/javascript" src="wall/views/RssTwitterDetail.js"></script>
+    <script type="text/javascript" src="wall/controllers/main.js"></script>
+    <script type="text/javascript" src="wall/controllers/WallController.js"></script>
+    
+    <div id="facebookData"></div>
+    
+    
+     
+  </head>
+  <body>
+  </body>
+</html>

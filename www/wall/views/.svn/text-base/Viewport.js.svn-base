@@ -1,0 +1,61 @@
+wall.views.Viewport = Ext.extend(Ext.Panel, {
+    fullscreen: true,
+    layout: 'card',
+    cardSwitchAnimation: 'slide',
+    listeners: {
+        cardswitch: function(thisContainer, newCard, oldCard) {
+            //alert('cardswitch');
+            //alert(oldCard.getId());
+            var persistentCards = 'homeMenu, wallPanel';
+            if (oldCard) {
+                if (persistentCards.indexOf(oldCard.getId()) < 0) {
+                    //alert('remove');
+                    this.remove(oldCard.getId(), true);
+                    //alert('after remove');
+                    //alert(oldCard.getId());
+                }
+            }
+        },
+    },
+    initComponent: function() {
+        //put instances of cards into wall.views namespace
+                                 //console.log('Viewport 0');
+                                 //alert('viewort 0');
+                                 
+
+        Ext.apply(wall.views, {
+//                  signInPanel: new wall.views.SignInPanel(),
+//                  signInForm: new wall.views.SignInForm(),
+                  homeMenu: new wall.views.HomeMenu(),
+                  wallPanel: new wall.views.WallPanel(),
+
+//                  settingsMenu: new wall.views.SettingsMenu(),
+//                  accountSettingsMenu: new wall.views.AccountSettingsMenu(),
+//                  userForm: new wall.views.UserForm(),
+//                  changePasswordForm: new wall.views.ChangePasswordForm(),
+//                  sharingSettingsForm: new wall.views.SharingSettingsForm(),
+//                  aboutPanel: new wall.views.AboutPanel(),
+                  notificationOverlay: new wall.views.NotificationOverlay(),
+                  pictureActionSheet: new wall.views.PictureActionSheet()
+        });
+        //put instances of cards into viewport
+                                 //console.log('Viewport 1');
+                                 //alert('viewport 1');
+        Ext.apply(this, {
+                  items: [
+//                  wall.views.signInPanel,
+//                  wall.views.signInForm,
+                  wall.views.homeMenu,
+//                  wall.views.settingsMenu,
+//                  wall.views.accountSettingsMenu,
+//                  wall.views.userForm,
+//                  wall.views.changePasswordForm,
+//                  wall.views.sharingSettingsForm,
+//                  wall.views.aboutPanel,
+                  ]
+        });
+    
+                                 //alert('viewport 2');
+        wall.views.Viewport.superclass.initComponent.apply(this, arguments);
+    }
+});

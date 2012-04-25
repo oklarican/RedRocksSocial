@@ -1,0 +1,46 @@
+.wallitem {
+    width: 100%;
+    height: 150px;
+}
+.profilePic {
+    background: #475c76;
+    border-bottom: 1px solid #c3c3c3;
+    padding: 1px;
+    width: 15%;
+    /*height: 50px;*/
+    float: left;
+    font-weight: bold;
+}
+.postPic {
+    /*display: block;*/
+    padding: 5px;
+    font-size: 15px;
+    width: 50%;
+    height: 50%;
+    float: right;
+}
+.timestamp {
+    /* display: block;*/
+    padding: 1px;
+    background: #003366;
+    font-size: 11px;
+    text-align: right;
+    color: #fff;
+    width: 100%;
+    float: right;
+    border-bottom: 0px solid #f3f3f3;
+}
+
+.wallMSG{
+    padding: 5px;
+    font-size: 14px;
+    float: left;
+    width: 45%;
+    height: 78%;
+    /*white-space: nowrap;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.clear {
+    clear: both;
+}

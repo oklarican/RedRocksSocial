@@ -1,0 +1,503 @@
+wall.controllers.main = new Ext.Controller({
+
+    testproxy: function(){
+        alert('testproxy 0');
+        userRecord = new wall.models.User();
+        wall.stores.userStore.add(userRecord);
+        alert('testproxy 1');
+        wall.stores.userStore.sync();
+
+        alert('testproxy 2');
+        userRecord = wall.stores.userStore.getById(parseInt('001'));
+        alert('testproxy 3');
+                                           wall.stores.userStore.sync();
+                                           alert('testproxy 4');
+
+    },
+
+    initapp: function(options){
+    // should appId be hard coded?
+    // ToDo: get app_profile record and load values into global variables
+                                           //alert('initapp 0');
+        savedUserId = localStorage.getItem("userId");
+        savedAppId = localStorage.getItem("appId");
+        savedUserSignedIn = localStorage.getItem("userSignedIn");
+        wall.stores.userStore.load();
+        
+        // Set RSS feeds for News and Coupons
+        //
+        // ToDo: get these from the app_profile record for this app
+        //
+                
+        //alert('userID :' + savedUserId + ': appId :' + savedAppId + ': userSignedIn :' + savedUserSignedIn + ':');
+        if (savedUserSignedIn == 'true') {
+            //alert('User signed in');
+            userRecord = wall.stores.userStore.getById(parseInt(savedUserId));
+            if (userRecord == null) {
+                //alert('Invalid User Id in Local Storage');
+                //console.log;
+                this.signOut();
+            } else {
+                //var filterRegExp = new RegExp('G+');
+                var filterRegExp = new RegExp(userRecord.get('userAccountType') + '+');
+                wall.stores.settingsMenuStore.filter('menuAllowedGroups', filterRegExp);
+                this.showHomeMenu({
+                    animation: {type: 'slide', direction: 'left'}
+                });
+            }
+        } else {
+            //alert('User not signed in');
+            this.showSignInPanel({
+                animation: {type: 'slide', direction: 'left'}
+            });
+        }
+    
+    },
+
+    showHomeMenu: function(options){
+        //wall.views.homeMenu = new wall.views.HomeMenu();
+        wall.views.viewport.setActiveItem(wall.views.homeMenu, options.animation);
+        //Ext.repaint();
+        //Ext.Element.garbageCollect();
+    },
+                                           
+    showSignInPanel: function(options){
+        wall.views.signInPanel = new wall.views.SignInPanel();
+        wall.views.viewport.setActiveItem(wall.views.signInPanel, options.animation);
+    },
+
+    showSignInForm: function(options){
+        wall.views.signInForm = new wall.views.SignInForm();
+        wall.views.viewport.setActiveItem(wall.views.signInForm, options.animation);
+    },
+    
+    signIn: function(options){
+        //alert(' emailaddress :' + options.data.userEmailAddress);
+        var signInSuccessful = false,
+            userRecord = null,
+            errors = new Ext.data.Errors;
+            
+        if (options.data.userEmailAddress == '') {
+            errors.add({field: 'userEmailAddress', message: 'Email Address is required.'});
+        } 
+        if (options.data.userPassword == '') {
+            errors.add({field: 'userPassword', message: 'User Password is required.'});
+        }
+        
+        if (options.data.userEmailAddress != '' && options.data.userPassword != '') {
+            userRecord = wall.stores.userStore.findRecord('userEmailAddress', options.data.userEmailAddress);
+            if (userRecord == null) {
+                errors.add({field: 'userPassword', message: 'Invalid Email Address or Password. Please try again.'});
+            } else {
+                //alert(userRecord.get('userFirstName'));
+                //alert(userRecord.get('userPassword'));
+                if (userRecord.get('userPassword') == options.data.userPassword) {
+                    signInSuccessful = true;
+                } else {
+                    errors.add({field: 'userPassword', message: 'Invalid Email Address or Password. Please try again.'});
+                }
+            }
+        }
+
+        
+        if (signInSuccessful) {
+            //alert('Sign In Succeeded!');
+            //alert('userId :' + userRecord.get('userId'));
+            userRecord.set('userSignedIn', true);
+            var currentDate = new Date();
+            userRecord.set('userLastSignIn', currentDate.toLocaleString());
+            wall.stores.userStore.sync();
+
+            savedUserId = userRecord.get('userId');
+            localStorage.setItem("userId", savedUserId);
+            savedUserSignedIn = "true";
+            localStorage.setItem("userSignedIn", savedUserSignedIn);
+            
+            var filterRegExp = new RegExp(userRecord.get('userAccountType') + '+');
+                                           console.log(filterRegExp);
+            wall.stores.settingsMenuStore.filter('menuAllowedGroups', filterRegExp);
+            this.showHomeMenu({
+                animation: {type: 'slide', direction: 'left'}
+            });
+        } else {
+            //alert('Sign In Failed!');
+            options.form.showErrors(errors);
+        }
+    },
+    
+    signInAsGuest: function(options){
+        // ToDo: setup guest user account record
+        userRecord = new wall.models.User();
+        userRecord.set('userFirstName', 'Guest');
+        userRecord.set('userAccountType', 'G');
+        if (typeof(device) != 'undefined') {
+            userRecord.set('deviceId', device.uuid);
+        } else {
+            userRecord.set('deviceId', 'unknown');
+        }
+        var currentDate = new Date();
+        userRecord.set('userDateCreated', currentDate.toLocaleString());
+        userRecord.set('userSignedIn', true);
+        userRecord.set('userLastSignIn', currentDate.toLocaleString());
+        //console.log(userRecord);
+
+        wall.stores.userStore.add(userRecord);
+        wall.stores.userStore.sync();
+
+        savedUserId = userRecord.get('userId');
+        localStorage.setItem("userId", savedUserId);
+        savedUserSignedIn = "true";
+        localStorage.setItem("userSignedIn", savedUserSignedIn);
+        
+        var filterRegExp = new RegExp(userRecord.get('userAccountType') + '+');
+        wall.stores.settingsMenuStore.filter('menuAllowedGroups', filterRegExp);
+        this.showHomeMenu({
+            animation: {type: 'slide', direction: 'left'}
+        });
+    },
+    
+    signOut: function(options){
+        userRecord = wall.stores.userStore.getById(parseInt(savedUserId));
+        if (userRecord != null) {
+            userRecord.set('userSignedIn', false);
+            wall.stores.userStore.sync();
+        }
+        
+        savedUserId = "";
+        localStorage.setItem("userId", savedUserId);
+        savedUserSignedIn = "false";
+        localStorage.setItem("userSignedIn", savedUserSignedIn);
+        userRecord = new wall.models.User();
+        wall.stores.settingsMenuStore.clearFilter();
+        this.showSignInPanel({
+            animation: {type: 'slide', direction: 'right'}
+        });
+    },
+         
+    showUserList: function(options){
+        wall.views.userList = new wall.views.UserList();
+        wall.views.viewport.setActiveItem(wall.views.userList, options.animation);
+    },
+
+    createAccount: function(options){
+
+        imageElementToUpdate = 'userProfilePic';
+        wall.views.userForm = new wall.views.UserForm();
+        userRecord = new wall.models.User();
+        wall.views.userForm.load(userRecord);
+        wall.views.viewport.setActiveItem(wall.views.userForm, options.animation);
+    },
+    
+    saveAccount: function(options){
+        if (typeof(device) != 'undefined') {
+            options.data.deviceId = device.uuid;
+        } else {
+            options.data.deviceId = 'unknown';
+        }
+        var currentDate = new Date();
+        options.data.userDateCreated = currentDate.toLocaleString();
+        options.record.set(options.data);
+                                           console.log(options.data);
+        var errors = options.record.validate();
+        var emailAddressInUse = options.record.emailAddressAlreadyInUse();
+        //alert ('emailAddressInUse:'+ emailAddressInUse + ':');
+        if (emailAddressInUse) {
+            errors.add({field: 'userEmailAddress', message: 'Email Address is already in use by another user account.'});
+        }
+
+        if (errors.isValid()) {
+            wall.stores.userStore.add(options.data);
+            wall.stores.userStore.sync();
+            this.showSignInForm({
+                                animation: {type: 'slide', direction: 'left'}
+            });
+        } else {
+            options.form.showErrors(errors);
+        }
+    },
+                                           
+    updateAccount: function(options){
+        var tmpUser = new wall.models.User(options.data),
+            errors = tmpUser.validate();
+        tmpUser.set('userId', options.record.get('userId'));
+        //alert('updateAccount 0');
+        //alert('userId from record :' + options.record.get('userId'));
+        //alert('userId from data :' + options.data.userId);
+        var emailAddressInUse = tmpUser.emailAddressAlreadyInUse();
+        //alert ('emailAddressInUse:'+ emailAddressInUse + ':');
+        if (emailAddressInUse) {
+            errors.add({field: 'userEmailAddress', message: 'Email Address is already in use by another user account.'});
+        }
+
+        if (errors.isValid()) {
+            //alert('updateAccount isValid');
+            options.record.set('userFirstName', options.data.userFirstName);
+            options.record.set('userLastName', options.data.userLastName);
+            options.record.set('userEmailAddress', options.data.userEmailAddress);
+            // userPassword cannot be modifed on this form
+            //options.record.set('userPassword', options.data.userPassword);
+            options.record.set('userPhoneNumber', options.data.userPhoneNumber);
+            options.record.set('userLocation', options.data.userLocation);
+            options.record.set('userGender', options.data.userGender);
+            
+            //alert('userId after set :' + options.record.get('userId'));
+            wall.stores.userStore.sync();
+            //alert('updateAccount after save');
+            this.showAccountSettingsMenu({
+                animation: {type: 'slide', direction: 'left'}
+            });
+        } else {
+            options.form.showErrors(errors);
+        }
+    },
+                    
+    deleteAccount: function(options){
+        //alert('deleteAccount userId :' + options.record.get('userId') + ': userFirstName :' + options.record.get('userFirstName'));
+        wall.stores.userStore.remove(options.record);
+        wall.stores.userStore.sync();
+        this.showUserList({
+            animation: {type: 'slide', direction: 'left'}
+        });
+    },
+    
+    showSettingsMenu: function(options){
+        wall.views.settingsMenu = new wall.views.SettingsMenu();
+        wall.views.viewport.setActiveItem(wall.views.settingsMenu, options.animation);
+    },
+                                           
+    showAccountSettingsMenu: function(options){
+        wall.views.accountSettingsMenu = new wall.views.AccountSettingsMenu();
+        wall.views.viewport.setActiveItem(wall.views.accountSettingsMenu, options.animation);
+    },
+                                           
+    showChangePasswordForm: function(options){
+        wall.views.changePasswordForm = new wall.views.ChangePasswordForm();
+        userRecord = wall.stores.userStore.getById(parseInt(savedUserId));
+        if (userRecord == null) {
+            alert('changePasswordForm Form: Invalid User Id in Local Storage');
+            //console.log;
+            this.signOut();
+        } else {
+            //alert('showUserProfile Form: Valid User Id in Local Storage');
+            //alert('userRecord userId :' + userRecord.get('userId'));
+            //alert('userRecord FirstName :' + userRecord.get('userFirstName'));
+            //alert('userRecord LastName :' + userRecord.get('userLastName'));
+            wall.views.changePasswordForm.load(userRecord);
+            wall.views.viewport.setActiveItem(wall.views.changePasswordForm, options.animation);
+        }
+    },
+                                           
+    showSharingSettingsForm: function(options){
+        wall.views.sharingSettingsForm = new wall.views.SharingSettingsForm();
+        userRecord = wall.stores.userStore.getById(parseInt(savedUserId));
+        if (userRecord == null) {
+            alert('sharingSettingsForm Form: Invalid User Id in Local Storage');
+            //console.log;
+            this.signOut();
+        } else {
+            //alert('showUserProfile Form: Valid User Id in Local Storage');
+            //alert('userRecord userId :' + userRecord.get('userId'));
+            //alert('userRecord FirstName :' + userRecord.get('userFirstName'));
+            //alert('userRecord LastName :' + userRecord.get('userLastName'));
+            wall.views.sharingSettingsForm.load(userRecord);
+            wall.views.viewport.setActiveItem(wall.views.sharingSettingsForm, options.animation);
+        }
+    },
+    
+    showUserDetail: function(options){
+        wall.views.userDetail = new wall.views.UserDetail();
+        userRecord2 = wall.stores.userStore.getById(parseInt(options.userId));
+        wall.views.userDetail.update(userRecord2.data);
+        wall.views.userDetail.load(userRecord2);
+        wall.views.viewport.setActiveItem(wall.views.userDetail, options.animation);
+    },
+                                           
+    showUserProfileForm: function(options){
+        imageElementToUpdate = 'userProfilePic';
+        wall.views.userForm = new wall.views.UserForm();
+        userRecord = wall.stores.userStore.getById(parseInt(savedUserId));
+        if (userRecord == null) {
+            alert('showUserProfile Form: Invalid User Id in Local Storage');
+            //console.log;
+            this.signOut();
+        } else {
+            //alert('showUserProfile Form: Valid User Id in Local Storage');
+            //alert('userRecord userId :' + userRecord.get('userId'));
+            //alert('userRecord FirstName :' + userRecord.get('userFirstName'));
+            //alert('userRecord LastName :' + userRecord.get('userLastName'));
+            wall.views.userForm.load(userRecord);
+            wall.views.viewport.setActiveItem(wall.views.userForm, options.animation);
+        }
+    },
+                                           
+    changePassword: function(options){
+        var errors = new Ext.data.Errors;
+        if (options.data.currentUserPassword == '') {
+            errors.add({field: 'currentUserPassword', message: 'Current User Password is required.'});
+        } else if (options.record.get('userPassword') != options.data.currentUserPassword) {
+            errors.add({field: 'currentUserPassword', message: 'Password entered does not match current password.'});
+        }
+
+        if (options.data.newUserPassword == '') {
+            errors.add({field: 'newUserPassword', message: 'New User Password is required.'});
+        } else if (options.data.newUserPassword == options.data.currentUserPassword) {
+            errors.add({field: 'newUserPassword', message: 'New User Password cannot match Current User Password.'});
+        }
+        
+        if (options.data.confirmNewUserPassword == '') {
+            errors.add({field: 'confirmNewUserPassword', message: 'Confirm New User Password is required.'});
+        } else if (options.data.newUserPassword != options.data.confirmNewUserPassword) {
+            errors.add({field: 'confirmNewUserPassword', message: 'Confirm New User Password does not match New User Password.'});
+        }
+
+        if (errors.isValid()) {
+            //alert('changePassword isValid');
+            options.record.set('userPassword', options.data.newUserPassword);
+            wall.stores.userStore.sync();
+            //alert('changePassword after save');
+            
+            var hideNotification = new Ext.util.DelayedTask(function() {
+                wall.views.notificationOverlay.hide(
+                    'fade'
+                );
+            });
+            //wall.views.notificationOverlay.setSize({width: 10, height: 10});
+            wall.views.notificationOverlay.update('Your password has been changed.');
+            wall.views.notificationOverlay.show();
+            this.showAccountSettingsMenu({
+                animation: {type: 'slide', direction: 'left'}
+            });
+            hideNotification.delay(1000);
+        } else {
+            options.form.showErrors(errors);
+        }
+    },
+                                           
+    updateSharingSettings: function(options){
+        var hideNotification = new Ext.util.DelayedTask(function() {
+            wall.views.notificationOverlay.hide(
+            'fade'
+            );
+        });
+        wall.views.notificationOverlay.update('Your sharing settings have been changed.');
+        wall.views.notificationOverlay.show();
+        this.showSettingsMenu({
+            animation: {type: 'slide', direction: 'left'}
+        });
+        hideNotification.delay(1000);
+    },
+                                           
+    showAboutPanel: function(options){
+        wall.views.aboutPanel = new wall.views.AboutPanel();
+        wall.views.viewport.setActiveItem(wall.views.aboutPanel, options.animation);
+    },
+
+    showRssList: function(options){
+        wall.views.rssList = new wall.views.RssList();
+        wall.views.viewport.setActiveItem(wall.views.rssList, options.animation);
+    },
+                                           
+    showRssFeed: function(options){
+    
+        wall.stores.rssFeedStore.setProxy({
+            type: 'ajax',
+            url: options.rssUrl,
+            reader: {
+                type: 'xml',
+                root: 'channel',
+                record: 'item'
+            }
+        });
+        wall.stores.rssFeedStore.load();
+
+// The rssFeed and rssDetail panels will persist until the user navigates back to the rssList panel. This allows the rssFeedStore to load only once.
+        wall.views.rssFeed = new wall.views.RssFeed();
+        wall.views.rssDetail = new wall.views.RssDetail();
+        wall.views.rssFeed.getDockedItems()[0].setTitle(options.rssName);
+        wall.views.rssDetail.getDockedItems()[0].setTitle(options.rssName);
+        wall.views.viewport.add(wall.views.rssDetail);
+        wall.views.viewport.setActiveItem(wall.views.rssFeed, options.animation);
+    },
+                                           
+    showRssDetail: function(options){
+
+        //wall.views.rssDetail = new wall.views.RssDetail();
+        //wall.views.rssDetail.getDockedItems()[0].setTitle(options.rssDetailTitle);
+        wall.views.rssDetail.update('<h2>' + options.rssDetailTitle + '</h2><p>' + options.rssDetailDescription + '</p>');
+        wall.views.viewport.setActiveItem(wall.views.rssDetail, options.animation);
+    },
+    
+    backToRssFeed: function(options){
+        wall.views.viewport.setActiveItem(wall.views.rssFeed, options.animation);
+    },
+
+    backToRssList: function(options){
+// Remove the rssFeed and rssDetail panels from the viewport    
+        wall.views.viewport.remove(wall.views.rssFeed);
+        wall.views.viewport.remove(wall.views.rssDetail);
+        this.showRssList({
+                         animation: {type: 'slide', direction: 'right'}
+                         });
+    },
+
+    backToHomeMenuFromRssFeed: function(options){
+// Remove the rssFeed and rssDetail panels from the viewport    
+        wall.views.viewport.remove(wall.views.rssFeed);
+        wall.views.viewport.remove(wall.views.rssDetail);
+        this.showHomeMenu({
+            animation: {type: 'slide', direction: 'right'}
+        });
+    },
+                                           showRssTwitterList: function(options){
+                                           wall.views.rssTwitterList = new wall.views.RssTwitterList();
+                                           wall.views.viewport.setActiveItem(wall.views.rssTwitterList, options.animation);
+                                           },
+                                           
+                                           showRssTwitterFeed: function(options){
+                                           
+                                           wall.stores.rssTwitterFeedStore.setProxy({
+                                                                             type: 'ajax',
+                                                                             url: options.rssTwitterUrl,
+                                                                             reader: {
+                                                                             type: 'json',
+                                                                             root: 'results',
+                                                                             
+                                                                             }
+                                                                             });
+                                           
+                                           
+                                           wall.stores.rssTwitterFeedStore.load();
+                                           
+                                           // The rssFeed and rssDetail panels will persist until the user navigates back to the rssList panel. This allows the rssFeedStore to load only once.
+                                           wall.views.rssTwitterFeed = new wall.views.RssTwitterFeed();
+                                           wall.views.rssTwitterDetail = new wall.views.RssTwitterDetail();
+                                           wall.views.rssTwitterFeed.getDockedItems()[0].setTitle(options.rssName);
+                                           wall.views.rssTwitterDetail.getDockedItems()[0].setTitle(options.rssName);
+                                           wall.views.viewport.add(wall.views.rssTwitterDetail);
+                                           wall.views.viewport.setActiveItem(wall.views.rssTwitterFeed, options.animation);
+                                           },
+                                           
+                                           
+                                           backToRssTwitterFeed: function(options){
+                                           wall.views.viewport.setActiveItem(wall.views.rssTwitterFeed, options.animation);
+                                           },
+                                           
+                                           backToRssTwitterList: function(options){
+                                           // Remove the rssFeed and rssDetail panels from the viewport    
+                                           wall.views.viewport.remove(wall.views.rssTwitterFeed);
+                                           wall.views.viewport.remove(wall.views.rssTwitterDetail);
+                                           this.showRssTwitterList({
+                                                            animation: {type: 'slide', direction: 'right'}
+                                                            });
+                                           },
+                                           
+                                           backToHomeMenuFromRssTwitterFeed: function(options){
+                                           // Remove the rssFeed and rssDetail panels from the viewport    
+                                           wall.views.viewport.remove(wall.views.rssTwitterFeed);
+                                           wall.views.viewport.remove(wall.views.rssTwitterDetail);
+                                           this.showHomeMenu({
+                                                             animation: {type: 'slide', direction: 'right'}
+                                                             });
+                                           },
+                                           
+});

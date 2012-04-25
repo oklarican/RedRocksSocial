@@ -1,0 +1,129 @@
+wall.views.WallPanel = Ext.extend(Ext.Panel, {
+            id: 'wallPanel',
+            layout: 'fit',
+            scroll: 'vertical',
+            initComponent: function(){
+            Ext.apply(this, {
+                dockedItems: [{
+                                xtype:'toolbar',
+                                dock : 'top',                
+                                id: 'wallToolbar',
+                                //title: 'Post',
+                                ui:'light',
+                                layout: 'hbox',
+                                items: [{
+                                        xtype: 'button',
+                                        ui: 'back',
+                                        text: 'Back',
+                                        handler: function(){
+                                        Ext.dispatch({
+                                                controller: wall.controllers.main,
+                                                action: 'showHomeMenu',
+                                                animation: {type: 'slide', direction: 'right'}
+                                                    });
+                                            }
+                                            },{xtype: 'spacer'},
+                                            {cls:'pic-button',
+                                             text: '<img src="lib/thewall/icons/camera.png" id="uploadPic" />',
+                                             ui: 'plain',
+                                            style: 'margin:0;',
+                                                                  border:0,
+                                                                  padding:0,
+                                                                  
+                                                                  width:45,
+                                                                  handler: function() {wall.views.pictureActionSheet.show();},},
+                                                                  postButton
+                                                                  ]
+                                                          },{
+                                                          xtype:'panel',
+                                                          id:'wallView',
+                                                          fullscreen: false,
+                                                          dock:'bottom',
+                                                          height:'65%',
+                                                          scroll: false,
+                                                          
+                                                          items:[{
+                                                                 xtype:'list',
+                                                                 id:'wallPosts',
+                                                                 fullscreen: false,
+                                                                 dock:'bottom',
+                                                                 height:300,
+                                                                 scroll:true,
+                                                                 itemTpl : tpl,
+                                                                 layout: 'auto',
+                                                                 itemCls:'noBorder',
+                                                                 //style: 'background: #DDEEF6;',
+                                                                 disableSelection: true,
+                                                                 store: wall.stores.WallPostsStore,
+                                    listeners: {
+                                    itemtap: function (dataView, index, item, e) {
+                                    Ext.dispatch({
+                                                    controller: wall.controllers.WallController,
+                                                    action: 'showDetailPanel',
+                                                    animation: {type: 'slide', direction: 'left'},
+                                                    userPic:dataView.store.getAt(index).data.userid,
+                                                    timestamp:dataView.store.getAt(index).data.timestamp,
+                                                    photo: dataView.store.getAt(index).data.urlM,
+                                                    message: dataView.store.getAt(index).data.message,
+                                                    });
+                                                                 }
+                                                                 },
+                                                                 
+                                                                
+                                                                 
+                                    plugins: [{ptype: 'pullrefresh'}]
+                                                                 
+                                                                 }]
+                                                          }],
+                                            items: [{
+                                                    xtype:'formpanel',
+                                                    id:'formbase',
+                                                    scroll: false,
+                                                    url   : 'http://arbdev.mine.nu/wall_post.php',
+                                                    standardSubmit : false,
+                                                    layout: 'vbox',
+                                                    
+                                                    ui:'light',
+                                                    title: '',
+                                                    items: [{
+                                                            id:'field',
+                                                            xtype: 'fieldset',
+                                                            
+                                                            title: '',
+                                                            margin:0,
+                                                            padding:0,
+                                                            scroll:false,
+                                                            height:'29%',
+                                                            defaults: {
+                                                            labelAlign: 'left',
+                                                            labelWidth: '0%'
+                                                            
+                                                            },
+                                                            items: [
+                                                                    {
+                                                                    id:'text',
+                                                                    xtype: 'textareafield',
+                                                                    name : 'message',
+                                                                    
+                                                                    placeHolder:'Post a message',
+                                                                    width:275,
+                                                                    align:'top',
+                                                                    label: '',
+                                                                    
+                                                                    maxLength: 2048,
+                                                                    maxRows: 10,
+                                                                    height: 90
+                                                                    },
+                                                                    ]
+                                                            }
+                                                            ],
+                                                    
+                                                    
+                                                    }]
+                                            
+                                            });
+                                
+                                wall.views.WallPanel.superclass.initComponent.apply(this);
+                                }
+                                });
+

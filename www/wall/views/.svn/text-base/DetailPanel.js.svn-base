@@ -1,0 +1,40 @@
+wall.views.DetailPanel = Ext.extend(Ext.Panel, {
+                                    id: 'detailPanel',
+                                    layout: 'fit',
+                                    scroll: 'vertical',
+                                    initComponent: function(){
+                                    
+                                    Ext.apply(this, {
+                                              dockedItems: [
+                                                            {xtype: 'toolbar',
+                                                            
+                                                            title: 'Message',
+                                                            items: [{
+                                                                    xtype: 'button',
+                                                                    ui: 'back',
+                                                                    text: 'Back',
+                                                                    handler: function(){
+                                                                    
+                                                                    wall.stores.WallPostsStore.loadPage(0);
+                                                                    
+                                                                    Ext.dispatch({
+                                                                                 controller: wall.controllers.WallController,
+                                                                                 action: 'showTheWall',
+                                                                                 animation: {type: 'slide', direction: 'right'}
+                                                                                 
+                                                                                 });
+                                                                    }
+                                                                    }]
+                                                            }
+                                                            ]
+                                              
+                                              
+                                              
+                                              });
+                                    
+                                    wall.views.DetailPanel.superclass.initComponent.apply(this);
+                                    
+                                    }
+                                    
+                                    });
+

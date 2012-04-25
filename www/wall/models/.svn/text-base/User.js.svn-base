@@ -1,0 +1,222 @@
+userProxy = new Ext.data.Proxy({
+    create: function(operation) {
+        alert('user create');
+                               console.log(operation);
+        Ext.Ajax.request({
+            //url: 'http://arbdev.mine.nu/user_modify.php',
+            url: 'http://www.onenessportal.com/arbitragemobile/userproxy.php',
+                         method: 'POST',
+                         params: { userId: '0001'},
+            success: function(e) {
+                         console.log(e);
+                //var obj = Ext.util.JSON.decode(e.responseText);
+                //var guests = obj.guests;
+                //if (guests) {
+                //    var html = tpl.applyTemplate(guests);
+                //    Ext.getCmp('recentTab').update(html);
+                //}
+            },
+                         failure: function(response, options) {
+                         console.log(response);
+                         },
+        });
+
+    },
+                                       
+                                       read: function() {
+                                       alert('user read');
+                                       },
+                                       
+                                       update: function() {
+                                       alert('user update');
+                                       },
+                                       
+                                       destroy: function() {
+                                       alert('user destroy');
+                                       },
+                                       
+                               getById: function() {
+                               alert('getById');
+                               },
+                                       
+});
+
+
+// Model for the User Profile
+wall.models.User = Ext.regModel('wall.models.User',{
+    fields: [
+        {name: 'userId', type: 'int'}, // PK into user_profile
+        {name: 'deviceId', type: 'string', defaultValue: ''},
+        {name: 'userAcctStatus', type: 'string', defaultValue: 'U0'},
+        {name: 'userFirstName', type: 'string'},
+        {name: 'userLastName', type: 'string'},
+        {name: 'userEmailAddress', type: 'string'},
+        {name: 'userPassword', type: 'string'},
+        {name: 'userPhoneNumber', type: 'string'},
+        {name: 'userLocation', type: 'string'},
+        {name: 'userGender', type: 'string', defaultValue: 'U'},
+        {name: 'userAccountType', type: 'string', defaultValue: 'S'},
+        {name: 'userSignedIn', type: 'boolean', defaultValue: false},
+        {name: 'userDateCreated', type: 'string'},
+        {name: 'userLastSignIn', type: 'string'},
+        {name: 'photoId', type: 'string', defaultValue: '1'}, // FK into photos
+        {name: 'userPhotoUrl', type: 'string'},
+        {name: 'facebookConnectFlag', type: 'boolean', defaultValue: false},
+        {name: 'facebookAccessToken', type: 'string'},
+        {name: 'facebookAccessTokenSecret', type: 'string'},
+        {name: 'sharePostsToFacebook', type: 'boolean', defaultValue: false},
+        {name: 'twitterConnectFlag', type: 'boolean', defaultValue: false},
+        {name: 'twitterAccessToken', type: 'string'},
+        {name: 'twitterAccessTokenSecret', type: 'string'},
+        {name: 'sharePostsToTwitter', type: 'boolean', defaultValue: false},
+        {name: 'confirmationCode', type: 'string'},
+    ],
+    validations: [
+                  {type: 'presence', 
+                  field: 'userFirstName',
+                  message: 'First Name is required.'},
+                  
+                  {type: 'presence', 
+                  field: 'userEmailAddress',
+                  message: 'Email Address is required.'},
+                  
+                  {type: 'presence', 
+                  field: 'userPassword',
+                  message: 'Password is required.'},
+                  
+                  {type: 'inclusion', field: 'userGender', list: ['U', 'F', 'M']},
+                  
+                  {type: 'format', 
+                  field: 'userEmailAddress', 
+                  matcher: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                  message: 'Must be a valid email address.'},
+    ],
+    
+    emailAddressAlreadyInUse: function(){
+        var result = false;  // This email address is not used in any existing user accounts
+        var tmpUserRecord = wall.stores.userStore.findRecord('userEmailAddress', this.get('userEmailAddress'));
+        if (tmpUserRecord) {
+            if (tmpUserRecord.get('userId') != this.get('userId')) {
+                result = true; // A user account with already exists with this email address
+            }
+        }
+        return result;
+    },
+    
+    idProperty: 'userId',
+    
+    proxy: {
+        type: 'rest',
+        url: 'http://arbdev.mine.nu/102/userproxy.php',
+        reader: {
+            type: 'json',
+            root: 'users',
+            idProperty: 'userId',
+            successProperty: 'success',
+            totalProperty: 'total',
+        },
+        writer: {
+            type: 'json',
+            root: 'users',
+        },
+        id: 'theWallTestUsers',
+    }
+
+    /* * /
+    proxy: {
+        type: 'localstorage',
+        id: 'theWallUsers',
+    },
+    /* */
+});
+
+// Store for the User Profile
+wall.stores.userStore = new Ext.data.Store({
+    model: 'wall.models.User',
+    /*
+    sorters: [{
+        property: 'userFirstName',
+        direction: 'ASC'
+    }],
+    */
+    /*
+                                           getById: function() {
+                                           alert('getById');
+                                           },
+   */
+/* 
+    proxy: userProxy,
+*/
+ /* * /   
+    proxy: {
+        type: 'ajax',
+        url: 'http://arbdev.mine.nu/user_modify.php',
+        reader: {
+           type: 'json',
+           root: 'users',
+           successProperty: 'success'
+        },
+        id: 'theWallUsers',
+    }
+
+ /* * /    
+    proxy: {
+        type: 'rest',
+        //url: 'http://www.onenessportal.com/arbitragemobile/userproxy.php',
+        url: 'http://arbdev.mine.nu/102/userproxy.php',
+        //url: '/wall/lib/userproxy.php',
+        reader: {
+            type: 'json',
+            root: 'users',
+            idProperty: 'userId',
+            successProperty: 'success',
+            totalProperty: 'total',
+        },
+        writer: {
+            type: 'json',
+            root: 'users',
+
+        },
+        id: 'theWallTestUsers',
+    }
+/* */ 
+     
+         
+                 
+});
+
+function userCallback(record, operation, controllerAction) {
+    //alert('in userCallback');
+    //console.log(record);
+    //alert('1');
+    //console.log(operation);
+    //alert('2');
+    //console.log(controllerAction);
+    //alert(controllerAction);
+    
+    userProxyTimeout.cancel();
+    
+    Ext.dispatch({
+                 controller: wall.controllers.main,
+                 action: controllerAction,
+                 record: record,
+                 operation: operation,
+                 });
+    
+    //alert('end userCallback');
+}
+
+userProxyTimeout = new Ext.util.DelayedTask( function() {
+    // display error
+    var hideNotification = new Ext.util.DelayedTask(function() {
+                                                    wall.views.notificationOverlay.hide(
+                                                                                        'fade'
+                                                                                        );
+                                                    });
+    //wall.views.notificationOverlay.setSize({width: 10, height: 10});
+    wall.views.notificationOverlay.update('Server taking too long to respond. Please try again.');
+    wall.views.notificationOverlay.show();
+    hideNotification.delay(2000);
+
+                                            });
+

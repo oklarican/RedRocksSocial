@@ -1,0 +1,290 @@
+p.amhomebtntxt
+{
+    width:100%;
+    text-align: center;
+}
+
+.x-button.theWallbutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/Bubble.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.newsbutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/News.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.couponsbutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/coupon.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.twitterbutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/Twitter.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.photobutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/Photo.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.settingsbutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/Settings.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.aboutbutton
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #E5E5E5;
+    font-size: 0.65em;
+    background-image: url("icons/About.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.x-button.menubtnp
+{
+    width: 65px;
+    height: 99px;
+    margin: 20px;
+    padding: 0px;
+    border: 0px solid black;
+    background-color: #A9A9A9;
+    text-align: center;
+    font-size: 0.65em;
+}
+
+
+
+
+.x-button.cameraBtn
+{
+    width: 45px;
+    height: 45px;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid black;
+    background-color: #06346A;
+    font-size: 0.65em;
+    background-image: url("camera.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.x-button.cameraBtnp
+{
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+    padding: 0px;
+    border: 1px solid black;
+    background-color: #A9A9A9;
+    text-align: center;
+    font-size: 0.65em;
+    
+}
+
+.x-button.amimagebutton
+{
+    width: 102px;
+    height: 102px;
+    margin: 2px;
+    padding: 0px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    font-size: 0.65em;
+    overflow: hidden;
+    background-image: url("camera_icon_sm.gif");
+    background-repeat: no-repeat;
+    background-clip: padding-box;
+    background-position: center center;
+}
+
+.x-button.amprofilephoto
+{
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 5px;
+    font-size: 0.65em;
+    overflow: hidden;
+}
+
+.x-button.amimagebtnp
+{
+    width: 100px;
+    height: 100px;
+    margin: 2px;
+    padding: 0px;
+    border: 1px solid black;
+    background-color: #A9A9A9;
+    text-align: center;
+    font-size: 0.65em;
+}
+
+/*img.amuserimage*/
+/*.x-button-plain.amuserimage img*/
+.x-button-plain.amimagebutton img
+{
+    
+    position: relative;
+    /*
+    top: 0px;
+    left: 0px;
+    */
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+    padding: 0px;
+    /*border-radius: 5px;*/
+    overflow: hidden;
+    border: 0px;
+    /*border: 3px solid blue;*/
+}
+
+/* Errorfield classes */
+.invalid-field .x-form-label { color: red; }
+
+.errorfield { font-size: 0.75em; }
+.errorfield ul { margin: 10px; }
+
+.red-button {
+    border-top: 1px solid #f797b7 !important;
+    background: #d66585 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#eb0927), to(#d66585)) !important;
+    background: -webkit-linear-gradient(top, #eb0927, #d66585) !important;
+    background: -moz-linear-gradient(top, #eb0927, #d66585) !important;
+    background: -ms-linear-gradient(top, #eb0927, #d66585) !important;
+    background: -o-linear-gradient(top, #eb0927, #d66585) !important;
+    padding: 5px 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    box-shadow: rgba(0,0,0,1) 0 1px 0;
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    color: #ffffff;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.red-button:hover {
+    border-top-color: #78282e;
+    background: #78282e;
+    color: #ccc;
+}
+.red-button:active {
+    border-top-color: #ffffff;
+    background: #ed1a1a;
+}
+.pic-button
+{
+    font-size: 40px;
+    padding:0;
+    border:0;
+    font-family: Georgia, serif;
+    text-decoration: none;
+}
+
+/*Begin Twitter CSS*/
+#tweet_container {
+    margin: 5px;
+    padding: 5px;
+    background: #fff;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    border: 1px solid #8BBCD6;
+}
+.clear {
+    clear: both;
+}
+.tweet_data {
+    margin-bottom: 5px;
+    
+    padding: 5px;
+}
+.tweet_avatar {
+    float: left;
+    width: 40px;
+}
+.tweet_content {
+    float: left;
+    width: 235px;
+    line-height: 16px;
+    color: #333;
+    font-size: 11px;
+}
+.user {
+    font-weight: bold;
+    color: #8BBCD6;
+    text-decoration: none;
+}
+.outlink {
+    color: #0099cc;
+    text-decoration: none;
+}
+/*End Twitter CSS*/
+

@@ -1,0 +1,31 @@
+//Model for each post
+wall.models.WallPosts=Ext.regModel('wall.models.WallPosts', {
+                                   fields: [{name: 'message',  type: 'string'},
+                                            {name: 'timestamp',       convert: dtConverter},
+                                            {name: 'userid', convert:fbPic},
+                                            {name: 'urlL',  convert: noPic},
+                                            {name: 'urlM',       convert: noPic},
+                                            {name: 'urlS',       convert: noPic}]
+                                   });
+
+//Storage for data pulled from JSON
+wall.stores.WallPostsStore= new Ext.data.Store({
+                                              autoLoad: true,
+                                              model: 'wall.models.WallPosts',
+                                              //pageSize: 2,
+                                              
+                                              proxy: {
+                                              type: 'ajax',
+                                              url : 'http://arbdev.mine.nu/json3.php',
+                                              extraParams: {
+                                              application_name: wall_name, //This is passed to json3 to limit the wall
+                                              
+                                              },
+                                              
+                                              reader: {
+                                              type: 'json'
+                                              }
+                                              },
+                                              
+                                              loadmask: true
+                                              });
