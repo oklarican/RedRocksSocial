@@ -5,7 +5,7 @@ Ext.regApplication({
        this.mainLaunch();
     },
     mainLaunch: function() {
-        //alert('in mainLaunch');
+        //alert('in mainLaunch');bbb
         // Comment out the following 'if' statement for testing in a desktop browser       
         if (!device || !this.launched) {return;}
         //alert('app 0');
