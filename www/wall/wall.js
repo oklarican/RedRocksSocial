@@ -13,7 +13,7 @@ Ext.regApplication({
           
         // setup camera 
         pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
+        destinationType=navigator.camera.DestinationType;ewkfjane
 
         // setup gps
         //var options = {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true};
